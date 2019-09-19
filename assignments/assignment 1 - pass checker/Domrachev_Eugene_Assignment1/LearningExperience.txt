@@ -1,0 +1,19 @@
+Eugene Domrachev
+Assignment 1 - Password Checker
+Learning Experience doc
+
+	This was my first insight into an actual structured project with concrete requirements. Having these guidelines,
+	as well as a described goal to reach (using class content) made for an enjoyable project. It was my first foray into 
+	JavaFX and JUnit tests, but I got the hang of them pretty quickly. They are definitely something I'll consider
+	using in my personal projects going forward, JUnit especially.
+	
+	A couple of lesons learned:
+	
+	- Start well ahead of time. Yes, the project is doable in a couple days, but the time spent perfecting everything should be distributed.
+	- Read documentation very carefully, and try to make sure with a colleague/administrator what's expected.
+	- Driver classes and class structure distribution make for much cleaner codebases than does a very long single file.
+	- Pseudocode can be easily translated into whatever language you are using, so just make it as a prerequisite. Very convenient.
+	
+	Overall, I think this is a good project to review workflow and some previously covered concepts for CS1 students.
+	
+	Thank you for reading! Please let me know anything I should change in future projects.
