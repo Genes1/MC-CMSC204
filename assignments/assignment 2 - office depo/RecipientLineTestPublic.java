@@ -1,4 +1,3 @@
-package _solution;
 import static org.junit.Assert.*;
 
 import java.util.NoSuchElementException;
