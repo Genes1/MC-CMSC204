@@ -1,10 +1,10 @@
-import java.util.Arrays;
+package com;
 
 public class StackDriverLinkedList {
 	
 	public static void main(String[] args) {
 		//StringStackArray s = new StringStackArray(3);
-		StackLinkedList<String> s = new StackLinkedList("a");	
+		StringStackLinkedList<String> s = new StringStackLinkedList("a");	
 		s.push("b");
 		s.push("c");
 		s.push("d"); //expect error message here about stack space
@@ -17,8 +17,6 @@ public class StackDriverLinkedList {
 		s.display(); //expect all null
 		s.push("yes"); 
 		s.push("no");
-		System.out.println(s.size());
-		System.out.println(Arrays.toString(s.toArray()) + "\n");
 		s.pop();
 		s.pop();
 		s.pop();

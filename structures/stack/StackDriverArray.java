@@ -1,9 +1,9 @@
-import java.util.Arrays;
+package com;
 
 public class StackDriverArray {
 	
 	public static void main(String[] args) {
-		StackArray<String> s = new StackArray(3);
+		StringStackArray<String> s = new StringStackArray(3);
 		s.push("a");
 		s.push("b");
 		s.push("c"); 
@@ -17,10 +17,8 @@ public class StackDriverArray {
 		s.display(); //expect all null
 		s.push("yes");
 		s.push("no");
-		System.out.println(Arrays.toString(s.toArray()) + "\n");
 		s.pop();
 		s.pop();
-		System.out.println(s.isEmpty());
 		s.pop();
 	}
 	
