@@ -1,0 +1,33 @@
+Eugene Domrachev
+Prof. Monshi
+Learning Experience - Assignment 2
+
+	This assignment has made me confident that I belong in this class. Before college started I had 
+	doubts that I could keep up, but I have proved those wrong. This time around I spread out my work schedule 
+	some more and reaped the benefits. Whereas the final weekend for my last assignment was where I started my code,
+	I didn't even have to touch it on either weekend this time. Gradual work put in over the weeks allowed me
+	to breathe a little easier and no headache come Tuesday. The only thing I did today was the javadoc finalization.
+	(Don't worry, the free weekend time was spent doing a cybersec competition :] )
+	
+	One technical thing that I learned was the casting of arrays in Java. Although I had a proper method signature
+	and passed type in Container.toArrayPackage(), the compiler would keep throwing type mismatch errors. I asked
+	for assistance and you explained to me that arrays and their data both have to be casted to the desired type.
+	
+	
+		public DonationPackage[] toArrayPackage() {
+		
+			// was just  return packages.toArray(), but this does not account for internal typing!
+			
+			Object[] t = packages.toArray();
+			DonationPackage[] temp = new DonationPackage[t.length];
+			for(int i= 0 ; i< t.length; i++)
+				temp[i] = (DonationPackage) t[i];
+			
+			return temp;
+	
+		}
+		
+	
+	Finally, I want to express gratitude for the opporunity I have to attend this class. Although it is a bit easy, it is a 
+	decent amount of stimulating work that ais legitimately graded. I got really tired of doing personal assignments
+	and Object work in school. Thank you for teaching the course and putting in the effort to teach! :^)
