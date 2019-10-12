@@ -6,10 +6,9 @@ import java.util.NoSuchElementException;
 
 public class BasicDoubleLinkedList<T> implements Iterable<T>{ //throw exceptions fullstack?
 
-	private Node firstNode, lastNode;	
-	private int size;
-	DoubleIterator it;
-	//TODO All the entities are defined as protected so they can be accessed by the subclasses.
+	protected Node firstNode, lastNode;	
+	protected int size;
+	protected DoubleIterator it;
 	
 	BasicDoubleLinkedList(){
 		firstNode = null;
@@ -130,17 +129,17 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{ //throw exceptions
 	}
 	
 	
-
+	//TODO ITERATOR IS MESSED UP FOR GUI
 	public ArrayList<T> toArrayList() { //TODO review to make sure it works, use iterator
 	
 		ArrayList<T> list = (ArrayList<T>) new ArrayList<Object>();
-		it = this.iterator();
-		if(it.hasNext()) {
+		it = iterator();
+		while(it.hasNext()) {
+			list.add(it.current.getData());
 			it.next();
-			while(it.hasNext()) {
-				list.add(it.next());
-			}
-			list.add(it.next());
+		}
+		if(it.current != null) {
+			list.add(it.current.getData());
 		}
 		return list;
 		
@@ -148,21 +147,7 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{ //throw exceptions
    
 	
 	
-
 	
-	/*
-	 * O - addToEnd (push)
-	 * X - addToFront
-	 * O - getFirst
-	 * O - getLast
-	 * O - getSize (size)
-	 * X - iterator: This method must be implemented using an inner class that implements ListIterator and defines the methods of hasNext(), next(), hasPrevious() and previous(). Remember that we should be able to call the hasNext() method as many times as we want without changing what is considered the next element. EXCEPTIONS
-	 * X - remove
-	 * X - retrieveFirstElement
-	 * X - retrieveLastElement
-	 * O - toArrayList (toArray)
-
-	 */
 	
 	class Node {
 		
@@ -223,12 +208,13 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{ //throw exceptions
 	  */
 
 	//TODO THROW EXCEPTIONS FOR UNSUPPORTED METHODS
-	class DoubleIterator implements ListIterator<T> {
+	protected class DoubleIterator implements ListIterator<T> {
 
 		Node current;
+		boolean atEnd = false;
 		
 		DoubleIterator(){
-			current = null;
+			current = firstNode;
 		}
 		
 		
@@ -236,10 +222,16 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{ //throw exceptions
 
 		@Override
 		public boolean hasNext() {
-			if(current != null) {
-				return current.hasNext();
-			}
-			return false;
+			if(size == 0) {
+				//The list is empty.
+				return false;
+			}  else if (current == lastNode) {
+				//The iterator is the last node.
+				return false;
+			} else {
+				//The list is not empty, and the iterator is not the last node.
+				return true;
+			}	
 		}
 
 		
@@ -253,38 +245,87 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{ //throw exceptions
 
 		
 		@Override
-		public T next() {
-			if(current == null) {
-				if(firstNode != null) {
-					current = firstNode;
-					return null; //TODO is this allowed?
+		public T next() throws NoSuchElementException{
+			T temp;
+			
+			if(size == 1) {
+				if(!atEnd) {
+					atEnd = true;
+					return firstNode.getData();
 				} else {
-					//TODO THIS MEANS LIST IS EMPTY. THROW NoSuchElement EXCEPTION?
+					throw new NoSuchElementException();
 				}
-			} else if (current.hasNext()) {
-				T temp = current.getData(); //Get element to return
-				current = current.getNext(); //Iterate to next element
+			} 
+			
+			if(atEnd) { //iter past end
+				
+				throw new NoSuchElementException();	
+				
+			} else if(current == null && firstNode != null) { //iter at beginning
+				
+				current = firstNode;
+				temp = current.getData();
+				current = current.getNext();
 				return temp;
-			}
-			return null;
+				
+			} else if(current.hasNext()) { //iter in middle
+				
+				temp = current.getData();
+				current = current.getNext();
+				return temp;
+				
+			} else if(!current.hasNext()){ //iter at end
+				
+				temp = current.getData();
+				System.out.println("at end ");
+				atEnd = true;
+				current = null;
+				return temp;
+				
+			} 
+			
+
+			throw new NoSuchElementException();
+			
+			
+
 		}
 
 		
 		@Override
-		public T previous() {
-			if(current == null) {
-				if(lastNode != null) {
-					current = lastNode;
-					return null; //TODO is this allowed?
+		public T previous() throws NoSuchElementException{
+			
+			T temp;
+
+			if(size == 1) {
+				if(atEnd) {
+					atEnd = false;
+					return firstNode.getData();
 				} else {
-					//TODO THIS MEANS LIST IS EMPTY. THROW NoSuchElement EXCEPTION?
+					throw new NoSuchElementException();
 				}
-			} else if (current.hasPrevious()) {
-				T temp = current.getData(); //Get element to return
-				current = current.getPrevious(); //Iterate to previous element
+			} 
+			
+			if(atEnd) { //at end
+				current = lastNode;
+				temp = current.getData();
+				current = current.getPrevious();
+				atEnd = false;
+				return temp;
+			} else if(current != null && current.hasPrevious()) { //in middle
+				temp = current.getData();
+				current = current.getPrevious();
+				return temp;
+			} if(current == null & !atEnd) {//no list
+				throw new NoSuchElementException();
+			} else if(current != null && !current.hasPrevious()) {//at start
+				temp = current.getData();
+				current = null;
 				return temp;
 			}
-			return null;
+			throw new NoSuchElementException();
+			
+			
 		}
 		
 		

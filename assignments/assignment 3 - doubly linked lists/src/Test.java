@@ -9,7 +9,6 @@ public class Test {
 		l.addToEnd("A");
 		l.addToEnd("B");
 		l.addToEnd("C");
-		ArrayList<String> n = l.toArrayList();
 		System.out.println(l.toArrayList());
 	}
 }

@@ -1,4 +1,3 @@
-package _solution1;
 
 
 import static org.junit.Assert.*;

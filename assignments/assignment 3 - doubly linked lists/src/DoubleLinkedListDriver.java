@@ -79,7 +79,7 @@ public class DoubleLinkedListDriver extends Application {
 			//Add button (sorted DLL)
 			else if (e.getSource() == add) {
 						newElement = newElementField.getText();
-						sorted.add(newElement);
+						sorted.add(newElement, sComp);
 						result = sorted.toArrayList();
 						//print out the result
 						showLists("sorted",result);
