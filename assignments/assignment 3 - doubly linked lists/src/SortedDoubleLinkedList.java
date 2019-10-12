@@ -22,24 +22,40 @@ public class SortedDoubleLinkedList<T> extends BasicDoubleLinkedList<T> {
 		it = iterator();
 		Node t;
 		
-		if(firstNode != null && lastNode != null) {
+		if(size > 0) {
+			
+			if(size == 1) {
+				System.out.println("yeahimhere0");
+				if(comparator.compare(data, firstNode.getData()) <= 0) {
+					t = new Node(data, null, firstNode);
+					firstNode = t;
+				} else {
+					t = new Node(data, firstNode, null);
+					lastNode = t;
+				}
+				size++;
+				return this;
+			}
+			
 			while(it.hasNext()) {
-				
 				//Try to find the first node that has data larger or equal to the passed data (we will call this the target node).
-				if(comparator.compare(data, it.next()) <= 0) {
+				if(comparator.compare(data, it.current.getData()) <= 0) {
 					
 					//If the target node has a previous node, relink the previous node's reference to the new node.
 					if(it.current.hasPrevious()) {
 						t = new Node(data, it.current.getPrevious(), it.current);
+						System.out.println("yeahimhere");
 						it.current.getPrevious().setNext(t);
 					} else {
 						//If it doesn't, make the new node and set it as the first.
+						System.out.println("yeahimhere2");
 						t = new Node(data, null, it.current);
 						firstNode = t;
 					}
 					
 					//Regardless, the spot before the target node will be set to the new node.
 					it.current.setPrevious(t);
+					size++;
 					return this;
 					
 				}
@@ -49,16 +65,19 @@ public class SortedDoubleLinkedList<T> extends BasicDoubleLinkedList<T> {
 			
 			//If the iterator gets to the last node (so no data smaller is found), the element belongs at the back.
 			if(it.current.equals(lastNode)) {
+				System.out.println("yeahimhere3");
 				it.current.setNext(new Node(data, it.current, null));
 				firstNode = it.current.getPrevious();
 			}
 			
 		} else {
 			//If the first node is null, the list is null.
+			System.out.println("yeahimhere4");
 			firstNode = new Node(data);
 			lastNode = firstNode;
 		}
 		
+		size++;
 		return this;
 	}
 	

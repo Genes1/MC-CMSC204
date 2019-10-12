@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
-public class BasicDoubleLinkedList<T> implements Iterable<T>{ //throw exceptions fullstack?
+public class BasicDoubleLinkedList<T> implements Iterable<T>{
 
 	protected Node firstNode, lastNode;	
 	protected int size;
@@ -18,6 +18,7 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{ //throw exceptions
 	
 	
 	
+	// Adding functions
 	
 	BasicDoubleLinkedList<T> addToEnd(T data) { 
 		
@@ -55,6 +56,8 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{ //throw exceptions
 	 
 	
 	
+	// Auxiliary functions
+	
 	public T getFirst() { return firstNode.getData(); }
 	
 	
@@ -67,14 +70,39 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{ //throw exceptions
 	
 	
 	
-	public DoubleIterator iterator() throws UnsupportedOperationException, NoSuchElementException {
-		return new DoubleIterator();
+	public ArrayList<T> toArrayList() { 
+		
+		ArrayList<T> list = (ArrayList<T>) new ArrayList<Object>();
+		it = iterator();
+		
+		while(it.hasNext()) {
+			System.out.println(it.current.getData());
+			list.add(it.current.getData());
+			it.next();
+		}
+		
+		if(it.current != null) {
+			list.add(it.current.getData());
+		}
+		
+		return list;
+		
 	}
 	
 	
 	
+	// Iterator instantiator
+	
+	public DoubleIterator iterator() throws UnsupportedOperationException, NoSuchElementException { return new DoubleIterator(); }
+	
+	
+	
+	// Removing functions
+	
 	BasicDoubleLinkedList<T> remove(T targetData, Comparator<T> comparator){
+		
 		it = iterator();
+		
 		while(it.hasNext()){
 			if(comparator.compare(it.next(), targetData) == 0) {
 				if(it.current.equals(firstNode)) {
@@ -88,6 +116,7 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{ //throw exceptions
 		size -= 1;
 		
 		return this;
+		
 	}
 	
 	
@@ -129,21 +158,8 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{ //throw exceptions
 	}
 	
 	
-	//TODO ITERATOR IS MESSED UP FOR GUI
-	public ArrayList<T> toArrayList() { //TODO review to make sure it works, use iterator
 	
-		ArrayList<T> list = (ArrayList<T>) new ArrayList<Object>();
-		it = iterator();
-		while(it.hasNext()) {
-			list.add(it.current.getData());
-			it.next();
-		}
-		if(it.current != null) {
-			list.add(it.current.getData());
-		}
-		return list;
-		
-	}
+
    
 	
 	
@@ -155,10 +171,10 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{ //throw exceptions
 		private Node previous, next;
 		
 		
-		Node(T d, Node p, Node n){
+		Node(T d, Node previous, Node next){
 			data = d;
-			previous = p;
-			next = n;
+			this.previous = previous;
+			this.next = next;
 		}
 		
 		Node(T d){
@@ -207,7 +223,6 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{ //throw exceptions
 	  * public void remove() throws UnsupportedOperationException{throw new UnsupportedOperationException();}
 	  */
 
-	//TODO THROW EXCEPTIONS FOR UNSUPPORTED METHODS
 	protected class DoubleIterator implements ListIterator<T> {
 
 		Node current;
@@ -257,24 +272,24 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{ //throw exceptions
 				}
 			} 
 			
-			if(atEnd) { //iter past end
+			if(atEnd) { //iterator past end
 				
 				throw new NoSuchElementException();	
 				
-			} else if(current == null && firstNode != null) { //iter at beginning
+			} else if(current == null && firstNode != null) { //iterator at beginning
 				
 				current = firstNode;
 				temp = current.getData();
 				current = current.getNext();
 				return temp;
 				
-			} else if(current.hasNext()) { //iter in middle
+			} else if(current.hasNext()) { //iterator in middle
 				
 				temp = current.getData();
 				current = current.getNext();
 				return temp;
 				
-			} else if(!current.hasNext()){ //iter at end
+			} else if(!current.hasNext()){ //iterator at end
 				
 				temp = current.getData();
 				System.out.println("at end ");
