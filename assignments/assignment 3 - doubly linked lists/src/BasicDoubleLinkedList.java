@@ -75,15 +75,16 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{
 		ArrayList<T> list = (ArrayList<T>) new ArrayList<Object>();
 		it = iterator();
 		
-		while(it.hasNext()) {
+		while(it.current != null) {
 			System.out.println(it.current.getData());
 			list.add(it.current.getData());
-			it.next();
+			if(it.current.hasNext()) {
+				it.next();
+			} else {
+				break;
+			}
 		}
 		
-		if(it.current != null) {
-			list.add(it.current.getData());
-		}
 		
 		return list;
 		
@@ -103,7 +104,13 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{
 		
 		it = iterator();
 		
-		while(it.hasNext()){
+		if(size == 0) {
+			return this;
+		}
+		
+		
+		
+		while(it.current != null){
 			if(comparator.compare(it.next(), targetData) == 0) {
 				if(it.current.equals(firstNode)) {
 					firstNode = firstNode.getNext();
@@ -234,19 +241,14 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{
 		
 		
 		// Supported methods
-
+		//TODO ADD NULL?
+		
 		@Override
 		public boolean hasNext() {
-			if(size == 0) {
-				//The list is empty.
-				return false;
-			}  else if (current == lastNode) {
-				//The iterator is the last node.
-				return false;
-			} else {
-				//The list is not empty, and the iterator is not the last node.
-				return true;
-			}	
+			if(current != null) {
+				return current.hasNext();
+			}
+			return false;
 		}
 
 		
@@ -292,7 +294,6 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{
 			} else if(!current.hasNext()){ //iterator at end
 				
 				temp = current.getData();
-				System.out.println("at end ");
 				atEnd = true;
 				current = null;
 				return temp;
@@ -321,23 +322,47 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{
 				}
 			} 
 			
+			
 			if(atEnd) { //at end
+				
+				System.out.println("At end");
 				current = lastNode;
 				temp = current.getData();
+				System.out.println(current.getData());
 				current = current.getPrevious();
+				System.out.println(current.getData() + "\n");
 				atEnd = false;
 				return temp;
+				
 			} else if(current != null && current.hasPrevious()) { //in middle
+				
+				System.out.println("In middle");
 				temp = current.getData();
+				System.out.println(current.getData());
 				current = current.getPrevious();
+				System.out.println(current.getData() + "\n");
+				atEnd = false;
 				return temp;
+				
+				
 			} if(current == null & !atEnd) {//no list
+				
 				throw new NoSuchElementException();
+				
 			} else if(current != null && !current.hasPrevious()) {//at start
+				System.out.println("Was at start");
+				temp = current.getData();
+				current = null;
+				atEnd = false;
+				return temp;
+				/*
 				temp = current.getData();
 				current = null;
 				return temp;
+				*/
 			}
+			
+			
 			throw new NoSuchElementException();
 			
 			

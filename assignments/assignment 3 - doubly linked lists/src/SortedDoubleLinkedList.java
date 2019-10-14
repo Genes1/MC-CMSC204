@@ -1,4 +1,5 @@
 import java.util.Comparator;
+import java.util.NoSuchElementException;
 
 
 public class SortedDoubleLinkedList<T> extends BasicDoubleLinkedList<T> {
@@ -13,8 +14,8 @@ public class SortedDoubleLinkedList<T> extends BasicDoubleLinkedList<T> {
 	
 	
 	//These methods are unused as the add() method automatically sorts any added element.
-	@Override BasicDoubleLinkedList<T> addToFront(T data) throws UnsupportedOperationException { throw new UnsupportedOperationException(); }
-	@Override BasicDoubleLinkedList<T> addToEnd(T data)   throws UnsupportedOperationException { throw new UnsupportedOperationException(); }
+	@Override SortedDoubleLinkedList<T> addToFront(T data) throws UnsupportedOperationException { throw new UnsupportedOperationException(); }
+	@Override SortedDoubleLinkedList<T> addToEnd(T data)   throws UnsupportedOperationException { throw new UnsupportedOperationException(); }
 	
 	
 	
@@ -25,32 +26,44 @@ public class SortedDoubleLinkedList<T> extends BasicDoubleLinkedList<T> {
 		if(size > 0) {
 			
 			if(size == 1) {
-				System.out.println("yeahimhere0");
+				System.out.println("D0");
 				if(comparator.compare(data, firstNode.getData()) <= 0) {
+					System.out.println("D0.5");
 					t = new Node(data, null, firstNode);
+					firstNode.setPrevious(t);
 					firstNode = t;
 				} else {
+					System.out.println("D0.8");
 					t = new Node(data, firstNode, null);
+					firstNode.setNext(t);
 					lastNode = t;
 				}
 				size++;
 				return this;
 			}
 			
-			while(it.hasNext()) {
+			while(it.current != null) {
+				
 				//Try to find the first node that has data larger or equal to the passed data (we will call this the target node).
+				System.out.println(data + " to " + it.current.getData() + " " +  comparator.compare(data, it.current.getData()));
 				if(comparator.compare(data, it.current.getData()) <= 0) {
-					
+					System.out.println("D1.5");
 					//If the target node has a previous node, relink the previous node's reference to the new node.
 					if(it.current.hasPrevious()) {
+						
 						t = new Node(data, it.current.getPrevious(), it.current);
-						System.out.println("yeahimhere");
+						System.out.println("D");
 						it.current.getPrevious().setNext(t);
+						size++;
+						
 					} else {
+						
 						//If it doesn't, make the new node and set it as the first.
-						System.out.println("yeahimhere2");
+						System.out.println("D2");
 						t = new Node(data, null, it.current);
 						firstNode = t;
+						size++;
+						
 					}
 					
 					//Regardless, the spot before the target node will be set to the new node.
@@ -60,23 +73,35 @@ public class SortedDoubleLinkedList<T> extends BasicDoubleLinkedList<T> {
 					
 				}
 				
+				it.next();
 				
 			}
 			
-			//If the iterator gets to the last node (so no data smaller is found), the element belongs at the back.
-			if(it.current.equals(lastNode)) {
-				System.out.println("yeahimhere3");
-				it.current.setNext(new Node(data, it.current, null));
-				firstNode = it.current.getPrevious();
-			}
+
 			
 		} else {
+			
 			//If the first node is null, the list is null.
-			System.out.println("yeahimhere4");
+			System.out.println("D4");
 			firstNode = new Node(data);
 			lastNode = firstNode;
+			size++;
+			return this;
 		}
 		
+		//If the iterator gets to the last node (so no data smaller is found), the element belongs at the back.
+		if(/*it.current.equals(lastNode)*/ it.current == null && size != 0) {
+			
+			Node temp = new Node(data, lastNode, null);
+			System.out.println("D3");
+			lastNode.setNext(temp);
+			lastNode = temp;
+			size++;
+			return this;
+			
+		}
+		
+		System.out.println("D5");
 		size++;
 		return this;
 	}
@@ -84,13 +109,13 @@ public class SortedDoubleLinkedList<T> extends BasicDoubleLinkedList<T> {
 	
 	
 	@Override
-	BasicDoubleLinkedList<T> remove(T targetData, Comparator<T> comparator){
+	SortedDoubleLinkedList<T> remove(T targetData, Comparator<T> comparator){
 		
 		it = iterator();
 		
-		while(it.hasNext()){
-			if(comparator.compare(it.next(), targetData) == 0) {
-				
+		while(it.current != null){
+			if(comparator.compare(it.current.getData(), targetData) == 0) {
+				System.out.println(it.current.getData() + " to " + targetData + " " +  comparator.compare(it.current.getData(), targetData));
 				Node found = it.current;
 				
 				//If the node to be removed has a previous and a next node, they need to be linked together.
@@ -105,16 +130,28 @@ public class SortedDoubleLinkedList<T> extends BasicDoubleLinkedList<T> {
 					//Otherwise still, if it is the first node, do the same but with 'previous' of next and set to first.
 					found.getNext().setPrevious(null);
 					firstNode = found.getNext();
+				} else {
+					//If none of these conditions were met, it is the only element in the list.
+					firstNode = null;
+					lastNode = null;
 				}
 						
-				it.remove();
-				break;
+				//it.remove();
+				size -= 1;
+				return this;
+				
 			}
+			
+			if(it.current.hasNext()) {
+				it.next();
+			} else {
+				throw new NoSuchElementException();
+			}
+			
 		}
 		
-		size -= 1;
+		throw new NoSuchElementException();
 		
-		return this;
 		
 	}
 	

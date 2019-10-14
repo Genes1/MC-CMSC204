@@ -48,9 +48,9 @@ public class Warmup {
     	}	
     	
     	
-    	
-    	
-    	
+    	System.out.println("a to b " + "a".compareTo("b"));
+    	System.out.println("a to c " + "a".compareTo("c"));
+    	System.out.println("b to c " + "b".compareTo("c"));
 	}
 	
 	
