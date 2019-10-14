@@ -42,6 +42,8 @@ public class SortedDoubleLinkedList<T> extends BasicDoubleLinkedList<T> {
 				return this;
 			}
 			
+			it.next();
+			
 			while(it.current != null) {
 				
 				//Try to find the first node that has data larger or equal to the passed data (we will call this the target node).
@@ -73,6 +75,18 @@ public class SortedDoubleLinkedList<T> extends BasicDoubleLinkedList<T> {
 					
 				}
 				
+				//If the iterator gets to the last node (so no data smaller is found), the element belongs at the back.
+				if(/*it.current.equals(lastNode)*/ !it.hasNext()) {
+					
+					Node temp = new Node(data, lastNode, null);
+					System.out.println("D3");
+					lastNode.setNext(temp);
+					lastNode = temp;
+					size++;
+					return this;
+					
+				}
+				
 				it.next();
 				
 			}
@@ -89,17 +103,7 @@ public class SortedDoubleLinkedList<T> extends BasicDoubleLinkedList<T> {
 			return this;
 		}
 		
-		//If the iterator gets to the last node (so no data smaller is found), the element belongs at the back.
-		if(/*it.current.equals(lastNode)*/ it.current == null && size != 0) {
-			
-			Node temp = new Node(data, lastNode, null);
-			System.out.println("D3");
-			lastNode.setNext(temp);
-			lastNode = temp;
-			size++;
-			return this;
-			
-		}
+
 		
 		System.out.println("D5");
 		size++;
@@ -142,11 +146,7 @@ public class SortedDoubleLinkedList<T> extends BasicDoubleLinkedList<T> {
 				
 			}
 			
-			if(it.current.hasNext()) {
-				it.next();
-			} else {
-				throw new NoSuchElementException();
-			}
+
 			
 		}
 		

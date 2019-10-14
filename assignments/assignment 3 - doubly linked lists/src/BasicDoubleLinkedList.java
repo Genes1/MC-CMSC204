@@ -75,14 +75,10 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{
 		ArrayList<T> list = (ArrayList<T>) new ArrayList<Object>();
 		it = iterator();
 		
-		while(it.current != null) {
+		while(it.hasNext()) {
+			it.next();
 			System.out.println(it.current.getData());
 			list.add(it.current.getData());
-			if(it.current.hasNext()) {
-				it.next();
-			} else {
-				break;
-			}
 		}
 		
 		
@@ -138,9 +134,13 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{
 			t = null;
 		}
 		
-		firstNode = firstNode.getNext();
+		if(size > 1) {
+			firstNode = firstNode.getNext();
+		} else {
+			firstNode = null;
+			lastNode = null;
+		}
 		size -= 1;
-		
 		return t;
 		
 	}
@@ -233,10 +233,11 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{
 	protected class DoubleIterator implements ListIterator<T> {
 
 		Node current;
-		boolean atEnd = false;
+		boolean atEnd, atStart = false;
 		
 		DoubleIterator(){
-			current = firstNode;
+			current = null;
+			//current = firstNode;
 		}
 		
 		
@@ -245,65 +246,52 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{
 		
 		@Override
 		public boolean hasNext() {
-			if(current != null) {
-				return current.hasNext();
-			}
-			return false;
+			return current != lastNode && !atEnd;
 		}
 
 		
 		@Override
 		public boolean hasPrevious() {
-			if(current != null) {
-				return current.hasPrevious();
-			}
-			return false;
+			return current != firstNode && (current == null && !atEnd);
 		}
 
 		
 		@Override
 		public T next() throws NoSuchElementException{
+			
 			T temp;
 			
-			if(size == 1) {
-				if(!atEnd) {
-					atEnd = true;
-					return firstNode.getData();
-				} else {
-					throw new NoSuchElementException();
-				}
+			if(size == 0) { // The list is empty
+				throw new NoSuchElementException();
 			} 
 			
-			if(atEnd) { //iterator past end
-				
-				throw new NoSuchElementException();	
-				
-			} else if(current == null && firstNode != null) { //iterator at beginning
-				
-				current = firstNode;
+			if(atEnd) {
+				throw new NoSuchElementException();
+			}
+			
+			/*
+			if(current != null && atEnd) { // At the last element
 				temp = current.getData();
-				current = current.getNext();
-				return temp;
-				
-			} else if(current.hasNext()) { //iterator in middle
-				
-				temp = current.getData();
-				current = current.getNext();
-				return temp;
-				
-			} else if(!current.hasNext()){ //iterator at end
-				
-				temp = current.getData();
-				atEnd = true;
 				current = null;
 				return temp;
-				
+			} else if(current == null && atEnd) { // After the last element (null)
+				throw new NoSuchElementException();
+			}*/
+			
+			if(current == null) { // Before first (null)
+				current = firstNode;
+				return current.getData();
+			}
+
+			if(current.hasNext()) { // Before another element
+				current = current.getNext();
+				if(!current.hasNext()) {
+					atEnd = true;
+				}
+				return current.getData();
 			} 
 			
-
-			throw new NoSuchElementException();
-			
-			
+			throw new RuntimeException();
 
 		}
 
@@ -313,59 +301,35 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{
 			
 			T temp;
 
-			if(size == 1) {
-				if(atEnd) {
-					atEnd = false;
-					return firstNode.getData();
-				} else {
-					throw new NoSuchElementException();
-				}
-			} 
-			
-			
-			if(atEnd) { //at end
-				
-				System.out.println("At end");
-				current = lastNode;
-				temp = current.getData();
-				System.out.println(current.getData());
-				current = current.getPrevious();
-				System.out.println(current.getData() + "\n");
-				atEnd = false;
-				return temp;
-				
-			} else if(current != null && current.hasPrevious()) { //in middle
-				
-				System.out.println("In middle");
-				temp = current.getData();
-				System.out.println(current.getData());
-				current = current.getPrevious();
-				System.out.println(current.getData() + "\n");
-				atEnd = false;
-				return temp;
-				
-				
-			} if(current == null & !atEnd) {//no list
-				
+			if(size == 0) {
 				throw new NoSuchElementException();
-				
-			} else if(current != null && !current.hasPrevious()) {//at start
-				System.out.println("Was at start");
-				temp = current.getData();
-				current = null;
-				atEnd = false;
-				return temp;
-				/*
-				temp = current.getData();
-				current = null;
-				return temp;
-				*/
 			}
 			
+			if(current == null && atEnd) { // Before first (null)
+				current = lastNode;
+				return current.getData();
+			} else if (current == null && !atEnd) {
+				throw new NoSuchElementException();
+			}
 			
-			throw new NoSuchElementException();
+			if(current.hasPrevious()) { // Before another element
+				atEnd = false;
+				current = current.getPrevious();
+				return current.getNext().getData();
+			} else {
+				if(current != null) {
+					temp = current.getData();
+					current = null;
+					return temp;
+				} /*else {
+					throw new NoSuchElementException();
+				}*/
+
+				
+			}
 			
-			
+
+			throw new RuntimeException();
 		}
 		
 		
