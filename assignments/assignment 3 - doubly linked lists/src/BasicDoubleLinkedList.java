@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
+
 public class BasicDoubleLinkedList<T> implements Iterable<T>{
 
 	protected Node firstNode, lastNode;	
@@ -56,13 +57,26 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{
 	 
 	
 	
+	
 	// Auxiliary functions
 	
-	public T getFirst() { return firstNode.getData(); }
+	public T getFirst() { 
+		if(firstNode != null) {
+			return firstNode.getData(); 
+		} else {
+			throw new NoSuchElementException();
+		}
+	}
 	
 	
 	
-	public T getLast() { return lastNode.getData(); }
+	public T getLast() {
+		if(firstNode != null) {
+			return lastNode.getData(); 
+		} else {
+			throw new NoSuchElementException();
+		}
+	}
 	 
 	
 	
@@ -104,19 +118,39 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{
 			return this;
 		}
 		
+
+		
+		it.next();
 		
 		
 		while(it.current != null){
-			if(comparator.compare(it.next(), targetData) == 0) {
-				if(it.current.equals(firstNode)) {
-					firstNode = firstNode.getNext();
+			if(it.next() != null) {
+				System.out.println("Looking: " + it.current.getData() + " to "+ targetData);
+				if(comparator.compare(it.current.getData(), targetData) == 0) {
+					System.out.println("Found");
+					if(size == 1) {
+						size = 0;
+						firstNode = null;
+						lastNode = null;
+						break;
+					} 
+					
+					if(it.current.equals(firstNode)) {
+						firstNode = firstNode.getNext();
+						firstNode.setPrevious(null);
+					} else if (it.current.equals(lastNode)) {
+						lastNode = lastNode.getPrevious();
+						lastNode.setNext(null);
+					}
+					
+					size--;
+					break;
+					
 				}
-				it.remove();
-				break;
 			}
 		}
 		
-		size -= 1;
+		//size -= 1;
 		
 		return this;
 		
@@ -136,11 +170,14 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{
 		
 		if(size > 1) {
 			firstNode = firstNode.getNext();
+			firstNode.setPrevious(null);
 		} else {
 			firstNode = null;
 			lastNode = null;
 		}
-		size -= 1;
+		
+		size = size == 0 ? 0 : size - 1;
+		
 		return t;
 		
 	}
@@ -158,70 +195,20 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{
 		}
 		
 		lastNode = lastNode.getPrevious();
-		size -= 1;
+		size = size == 0 ? 0 : size - 1;
 		
 		return t;
 		
 	}
+
+	
+	
+	
+	
 	
 	
 	
 
-   
-	
-	
-	
-	
-	class Node {
-		
-		private T data;
-		private Node previous, next;
-		
-		
-		Node(T d, Node previous, Node next){
-			data = d;
-			this.previous = previous;
-			this.next = next;
-		}
-		
-		Node(T d){
-			data = d;
-			previous = null;
-			next = null;
-		}
-		
-		
-		
-		// Data operations
-		
-		public void setData(T d) { this.data = d; }
-		
-		public T getData() { return data; } 
-		
-		
-		// Next operations
-		
-		public void setNext(Node n) { this.next = n; }
-		
-		public Node getNext() { return next; }
-		
-		public boolean hasNext() { return (next == null) ? false : true; }		
-		
-		
-		// Previous operations
-		
-		public void setPrevious(Node n) { this.previous = n; }
-		
-		public Node getPrevious() { return previous; }
-		
-		public boolean hasPrevious() { return (previous == null) ? false : true; }
-		
-		
-	}
-   
-
-	
-	
 	 /*
 	  * However only the hasNext(), next(), hasPrevious() and previous() 
 	  * methods of ListIterator need to be implemented, 
@@ -252,7 +239,7 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{
 		
 		@Override
 		public boolean hasPrevious() {
-			return current != firstNode && (current == null && !atEnd);
+			return !(current == null  && !atEnd);
 		}
 
 		
@@ -269,15 +256,6 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{
 				throw new NoSuchElementException();
 			}
 			
-			/*
-			if(current != null && atEnd) { // At the last element
-				temp = current.getData();
-				current = null;
-				return temp;
-			} else if(current == null && atEnd) { // After the last element (null)
-				throw new NoSuchElementException();
-			}*/
-			
 			if(current == null) { // Before first (null)
 				current = firstNode;
 				return current.getData();
@@ -285,13 +263,13 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{
 
 			if(current.hasNext()) { // Before another element
 				current = current.getNext();
-				if(!current.hasNext()) {
-					atEnd = true;
-				}
 				return current.getData();
-			} 
+			} else {
+				throw new NoSuchElementException();
+			}
 			
-			throw new RuntimeException();
+
+			//throw new RuntimeException();
 
 		}
 
@@ -357,15 +335,67 @@ public class BasicDoubleLinkedList<T> implements Iterable<T>{
 			throw new UnsupportedOperationException();			
 		}
 
+		//TODO SUPPORT THIS
 		@Override
 		public void remove() throws UnsupportedOperationException {
-			throw new UnsupportedOperationException();			
+			this.remove();			
 		}
 		
 	}
 
-
-
+	
+	
+	
+	
+	
+	
+	
+	class Node {
+		
+		private T data;
+		private Node previous, next;
+		
+		
+		Node(T d, Node previous, Node next){
+			data = d;
+			this.previous = previous;
+			this.next = next;
+		}
+		
+		Node(T d){
+			data = d;
+			previous = null;
+			next = null;
+		}
+		
+		
+		
+		// Data operations
+		
+		public void setData(T d) { this.data = d; }
+		
+		public T getData() { return data; } 
+		
+		
+		// Next operations
+		
+		public void setNext(Node n) { this.next = n; }
+		
+		public Node getNext() { return next; }
+		
+		public boolean hasNext() { return (next == null) ? false : true; }		
+		
+		
+		// Previous operations
+		
+		public void setPrevious(Node n) { this.previous = n; }
+		
+		public Node getPrevious() { return previous; }
+		
+		public boolean hasPrevious() { return (previous == null) ? false : true; }
+		
+		
+	}
 
 	
 }
