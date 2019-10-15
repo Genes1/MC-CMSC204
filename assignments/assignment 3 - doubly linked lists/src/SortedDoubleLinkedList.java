@@ -112,47 +112,5 @@ public class SortedDoubleLinkedList<T> extends BasicDoubleLinkedList<T> {
 	
 	
 	
-	@Override
-	SortedDoubleLinkedList<T> remove(T targetData, Comparator<T> comparator){
-		
-		it = iterator();
-		
-		while(it.current != null){
-			if(comparator.compare(it.current.getData(), targetData) == 0) {
-				
-				System.out.println(it.current.getData() + " to " + targetData + " " +  comparator.compare(it.current.getData(), targetData));
-				Node found = it.current;
-				
-				// If the node to be removed has a previous and a next node, they need to be linked together.
-				if(found.hasPrevious() && found.hasNext()) {
-					found.getPrevious().setNext(found.getNext());
-					found.getNext().setNext(found.getNext());
-				} else if(found.hasPrevious()) {
-					// Otherwise, if it is the last node, the 'next' reference of the previous node is tossed and that node is set to last.
-					found.getPrevious().setNext(null);
-					lastNode = found.getPrevious();
-				} else if(found.hasNext()) {
-					// Otherwise still, if it is the first node, do the same but with 'previous' of next and set to first.
-					found.getNext().setPrevious(null);
-					firstNode = found.getNext();
-				} else {
-					// If none of these conditions were met, it is the only element in the list.
-					firstNode = null;
-					lastNode = null;
-				}
-						
-				size -= 1;
-				return this;
-				
-			}
-			
-
-			
-		}
-		
-		throw new NoSuchElementException();
-		
-		
-	}
 	
 }
