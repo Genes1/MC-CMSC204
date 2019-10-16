@@ -15,7 +15,7 @@ import org.junit.Test;
 
 
 
-public class SortedDoubleLinkedListTestStudent {
+public class SortedDoubleLinkedListTestPublic {
 	SortedDoubleLinkedList<String> sortedLinkedString;
 	StringComparator comparator;
 	
@@ -52,24 +52,12 @@ public class SortedDoubleLinkedListTestStudent {
 		}
 	}
 
-	@Test
-	public void testSort() {
-		try {
-			sortedLinkedString.add("Hello", comparator);
-			sortedLinkedString.add("Bello", comparator);
-			System.out.println(sortedLinkedString.toArrayList());
-		}
-		catch (Exception e)
-		{
-			assertTrue("Threw an unwanted exception", false);
-		}
-	}
-	
 	private class StringComparator implements Comparator<String>
 	{
 
 		@Override
 		public int compare(String arg0, String arg1) {
+			// TODO Auto-generated method stub
 			return arg0.compareTo(arg1);
 		}
 	}

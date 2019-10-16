@@ -1,0 +1,28 @@
+Eugene Domrachev
+Prof. Monshi
+
+Learning Doc
+
+	This assignment was definitely an extension of what I expect from this class. It's 
+	challenging in the right way (implementation wise) because I am still an amateur 
+	programmer, and it is helping me continue to get familiar with the Java development
+	process (+ git!). Ample time was given for this assignment, and I felt comfortable
+	using the toolkit that I had from my last assignment (the Node class). I hope we get 
+	to develop another project in this manner.
+	
+	I had a little bit of a struggle with proper iteration of the nodes because I glazed over the fact
+	that a double implementation of a linked list requires a null value to be on both "ends" of the 
+	list, one iteration over the first/last element. This messed up my implementation of previous() 
+	for some time.
+	
+	The most important piece of knowledge I obtained from this experience was the 
+	use of JUnit testing as a development tool and a testing tool both. In my previous 
+	projects, I mostly relied on the GUI to input and test data by sight. This would
+	get annoying and I knew the solution was to use a JUnit test, but I hadn't actually 
+	done that until this project. It is very nice to get familiar with this workflow 
+	as you can concurrently build your test cases, test your code you just wrote (& debug it,
+	or if you can't then you know you have a fundamentally flawed implementation), and
+	verify your knowlege of the program behavior is correct. Needless to say, I will make
+	this a habit.
+	
+	P.S. This is the only class I like this semester :( / :)

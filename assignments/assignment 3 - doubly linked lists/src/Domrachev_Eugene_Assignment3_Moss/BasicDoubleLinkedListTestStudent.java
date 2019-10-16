@@ -1,3 +1,10 @@
+/**
+ * 
+ * @author Eugene Domrachev
+ * 
+ * Private tests for the basic double linked list.
+ *
+ */
 
 import static org.junit.Assert.*;
 
@@ -10,6 +17,8 @@ import java.util.NoSuchElementException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+
 
 
 
@@ -124,6 +133,7 @@ public class BasicDoubleLinkedListTestStudent {
 	
 	
 	
+	
 	/*
 	 * Test if the size of the lists is being changed as expected.
 	 * Precondition: the addToFront/End tests passed.
@@ -145,6 +155,186 @@ public class BasicDoubleLinkedListTestStudent {
 		assertEquals(2,linkedString.getSize());
 		
 	}
+	
+	
+	
+	
+	
+	/*
+	 * Test if the iteration is as expected.
+	 * Precondition: add must pass
+	 */
+	
+	@Test
+	public void testIterate() {
+		
+		ArrayList<Object> returns = new ArrayList<Object>();
+		
+		//Multi list
+		it = linkedString.iterator();
+		assertEquals(false, it.hasPrevious());
+		assertEquals(true, it.hasNext());
+		returns.add(it.next()); //to A
+		returns.add(it.next()); //to B
+		assertEquals(true, it.hasPrevious());
+		assertEquals(true, it.hasNext());
+		returns.add(it.next()); //to C
+		returns.add(it.next()); //to A
+		assertEquals(true, it.hasPrevious());
+		assertEquals(false, it.hasNext());
+		
+		try {
+			it.next();
+			assertTrue(false);
+		} catch (NoSuchElementException e) {
+			returns.add("E");
+			assertTrue(true);
+		} catch (Exception e) {
+			assertTrue(false);
+		}
+		
+		returns.add(it.previous()); //to A
+		returns.add(it.previous()); //to C
+		returns.add(it.next()); //to C
+		returns.add(it.previous()); //to C
+		returns.add(it.previous()); //to B
+		returns.add(it.previous()); //to A
+		
+		try {
+			it.previous();
+			assertTrue(false);
+		} catch (NoSuchElementException e) {
+			assertTrue(true);
+			returns.add("E");
+		} catch (Exception e) {
+			assertTrue(false);
+		}
+		
+		//[A, B, C, A, E, A, C, C, C, B, A, E] + E
+		
+		//Verifying retrieving first node does not keep reference
+		linkedString.retrieveFirstElement();
+		it = linkedString.iterator();
+		assertEquals(false, it.hasPrevious());
+		
+		try {
+			it.previous();
+			assertTrue(false);
+		} catch (NoSuchElementException e) {
+			assertTrue(true);
+			returns.add("E");
+		} catch (Exception e) {
+			assertTrue(false);
+		}
+		
+		assertEquals("[A, B, C, A, E, A, C, C, C, B, A, E, E]", returns.toString());
+		
+		
+		
+		//Double list 
+		
+		returns = new ArrayList<Object>();
+		it = linkedStringTwo.iterator();
+		
+		returns.add(it.next()); //to First
+		assertEquals(true, it.hasPrevious());
+		assertEquals(true, it.hasNext());
+		returns.add(it.next()); //to Second
+
+		try {
+			it.next();
+			assertTrue(false);
+		} catch (NoSuchElementException e) {
+			returns.add("E");
+			assertTrue(true);
+		} catch (Exception e) {
+			assertTrue(false);
+		}
+		
+		returns.add(it.previous()); //to Second
+		returns.add(it.previous()); //to First
+		
+		try {
+			it.previous();
+			assertTrue(false);
+		} catch (NoSuchElementException e) {
+			returns.add("E");
+			assertTrue(true);
+		} catch (Exception e) {
+			assertTrue(false);
+		}
+		
+		assertEquals("[First, Second, E, Second, First, E]", returns.toString());
+		
+		
+		
+		//Single list
+		
+		returns = new ArrayList<Object>();
+		it = linkedStringOne.iterator();
+		
+		returns.add(it.next()); //to headNtail
+		assertEquals(true, it.hasPrevious());
+		assertEquals(false, it.hasNext());
+		
+		try {
+			it.next();
+			assertTrue(false);
+		} catch (NoSuchElementException e) {
+			returns.add("E");
+			assertTrue(true);
+		} catch (Exception e) {
+			assertTrue(false);
+		}
+		
+		returns.add(it.previous()); //to headNtail
+		
+		try {
+			it.previous();
+			assertTrue(false);
+		} catch (NoSuchElementException e) {
+			returns.add("E");
+			assertTrue(true);
+		} catch (Exception e) {
+			assertTrue(false);
+		}
+		
+		assertEquals("[headNtail, E, headNtail, E]", returns.toString());
+		
+		
+		
+		//Empty list
+		
+		returns = new ArrayList<Object>();
+		it = linkedStringEmpty.iterator();
+		
+		try {
+			it.next();
+			assertTrue(false);
+		} catch (NoSuchElementException e) {
+			returns.add("E");
+			assertTrue(true);
+		} catch (Exception e) {
+			assertTrue(false);
+		}
+		
+		
+		try {
+			it.previous();
+			assertTrue(false);
+		} catch (NoSuchElementException e) {
+			returns.add("E");
+			assertTrue(true);
+		} catch (Exception e) {
+			assertTrue(false);
+		}
+		
+		assertEquals("[E, E]", returns.toString());
+		
+
+		
+	}
+	
 	
 	
 	
@@ -228,22 +418,6 @@ public class BasicDoubleLinkedListTestStudent {
 	
 	
 	
-	/*
-	 * Test if the iteration is as expected.
-	 */
-	
-	//TODO
-	@Test
-	public void testIteration() {
-		it = linkedString.iterator();
-		
-		linkedString.addToEnd("New");
-		assertEquals("New", linkedString.getLast());
-	}
-	
-	
-	
-	
 	
 	/*
 	 * Test if the list is as expected after valid and invalid remove operations
@@ -251,7 +425,6 @@ public class BasicDoubleLinkedListTestStudent {
 	
 	@Test
 	public void testRemove() {
-		//Test for size, single ONLY removes, 
 		
 		//Multi list
 		assertEquals(true, linkedString.contains("A", sComp));
@@ -266,7 +439,6 @@ public class BasicDoubleLinkedListTestStudent {
 		assertEquals(true, linkedStringOne.contains("headNtail", sComp));
 		linkedStringOne.remove("headNtail", sComp);
 		assertEquals(false, linkedStringOne.contains("headNtail", sComp));
-		System.out.println(linkedStringOne.size);
 		linkedStringOne.remove("Arbitrary element ", sComp);
 		assertEquals("[]", linkedStringOne.toArrayList().toString());
 		assertEquals(false, linkedStringOne.contains("Arbitrary element", sComp));
@@ -283,6 +455,8 @@ public class BasicDoubleLinkedListTestStudent {
 		assertEquals("[]", linkedStringTwo.toArrayList().toString());
 		
 		//Empty list
+		linkedStringEmpty.remove("A", sComp);
+		assertEquals("[]", linkedStringEmpty.toArrayList().toString());
 		
 	}
 	
