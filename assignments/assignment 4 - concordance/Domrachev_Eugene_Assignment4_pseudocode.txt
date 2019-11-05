@@ -1,0 +1,24 @@
+hashtable := new list of nearest 4k+3 prime (with load factor of 1.5)
+
+text := file F text OR string input
+
+
+//cleaning the concordance 
+for punctuation in text
+	if not in word
+		remove character
+
+		
+//creating a concordance
+for word in text
+	if wordlength < 3 and word isn't "the" or "and"
+		if hashtable contains word
+			add word, line to hashtable at word's hashcode
+		else
+			add line to hashtable at word's hashcode
+
+			
+			
+//displaying the concordance
+for concordanceElement in hashtable
+	show concordanceKey + lines
