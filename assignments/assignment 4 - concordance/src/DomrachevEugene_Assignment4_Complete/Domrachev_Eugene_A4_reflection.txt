@@ -1,0 +1,54 @@
+Eugene Domrachev
+Prof. Monshi
+
+Learning Doc, Assignment 4
+
+	With the conclusion of another assignment, I have to reiterate: this is my favorite class.
+	No BS, no useless assignments, no menial papers. Everything is necessary to rehearsing the
+	curriculum. Projects are easy implementations of topics learned in class. It's just great overall.
+	
+	I did most of this project the week before the due date and came back to document/clean it
+	the next. I didn't have much difficulty revisiting my previously written code, so that is 
+	a good sign. I have focused on readability and maintainability this semester and feel as if
+	I have done a decent enough job with it (progres is apparent).
+	
+	As for content, there are a couple of things I stumbled on:
+	
+	
+	
+	1. Generic arrays cannot be created in Java as arrays need the component information at runtime.
+	
+	
+		This meant that 
+		
+		hashtable[i] = new LinkedList<ConcordanceDataElement>()[size];
+		
+		would not work, and you would rather have to do 
+		
+		hashtable = new LinkedList[size];
+		for(int i = 0; i < size; i++) {
+			hashtable[i] = new LinkedList<ConcordanceDataElement>();
+		}
+		
+		to create the array of Element LinkedLists.
+		
+	
+	2. Integer overflow
+		
+		This is more of something I had already known but didn't think it would show up here. The hashcode function
+		of strings involves multiplication of character values, so a decently long word would of course go over the 
+		max int value Java could hold. This would cause the hashcode to be negative, leading to the next point.
+		
+	
+	3. Java's negative modulus
+	
+		Java does not compute negative modulus correctly. It results in a negative value of modulo - modulus. This
+		became a problem because the hashcode of long words were negative. So, with the code 
+		
+		int key = word.hashCode() % size;
+		
+		Any hashtable[key] call with a key from one of the long words aforementioned would lead to an ArrayIndexOutOfBoundsException.
+		The correct value could be attained with
+		
+		if (key < 0) key += size;
+		

@@ -14,9 +14,10 @@ import org.junit.Test;
  * This is the test file for the ConcordanceDataManager
  * which is implemented from the ConcordanceDataManagerInterface
  * 
- * @author Professor Kartchner
+ * @author Professor Kartchner, adjusted by Eugene Domrachev
  *
  */
+
 public class ConcordanceDataManagerTestStudent {
 	
 	
@@ -25,11 +26,16 @@ public class ConcordanceDataManagerTestStudent {
 	private File inputFile, outputFile;
 	private String text;
 
+	
+	
+	
+	
 	/**
 	 * Create an instance of ConcordanceDataManager
 	 * Create a string for testing
 	 * @throws Exception
 	 */
+	
 	@Before
 	public void setUp() throws Exception {
 		concordanceManager = new ConcordanceDataManager();
@@ -37,10 +43,15 @@ public class ConcordanceDataManagerTestStudent {
 				"to come to the aid\nof their country";
 	}
 
+	
+	
+	
+	
 	/**
 	 * Set concordanceManager reference to null
 	 * @throws Exception
 	 */
+	
 	@After
 	public void tearDown() throws Exception {
 		concordanceManager = null;
@@ -55,10 +66,13 @@ public class ConcordanceDataManagerTestStudent {
 	 * Test for the createConcordanceArray method
 	 * Use the String text created in setUp()
 	 */
+	
 	@Test
 	public void testCreateConcordanceArray() {
+		
 		ArrayList<String> words = concordanceManager.createConcordanceArray(text);
 		System.out.println(concordanceManager.createConcordanceArray(text));
+		
 	}
 	
 	
@@ -70,10 +84,13 @@ public class ConcordanceDataManagerTestStudent {
 	 * This is intended to be used with the test file:
 	 * Now_is_the_time.txt
 	 */
+	
 	@Test
 	public void testCreateConcordanceFileA() {
+		
 		ArrayList<String> words = new ArrayList<String>();
 		try {
+			
 			inputFile = new File("PrideAndPrejudice.txt");
 			outputFile = new File("PrideOut.txt");
 			concordanceManager.createConcordanceFile(inputFile, outputFile);
@@ -85,6 +102,7 @@ public class ConcordanceDataManagerTestStudent {
 
 			fail("This should not have caused an Exception");
 		}
+		
 	}
 	
 	

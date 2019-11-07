@@ -1,21 +1,26 @@
-/**
- * @author Eugene Domrachev 
- */
-
-
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import javafx.scene.Scene;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+
+/**
+ * @author Eugene Domrachev 
+ * 
+ * This class creates a concordance via the ConcordanceDataElement and ConcordanceDataStructure classes.
+ */
 
 public class ConcordanceDataManager implements ConcordanceDataManagerInterface {
 
-
+	
+	
+	/**
+	 * Create and return a concordance of the string input. New lines are parsed by \n.
+	 * @param input text to be made into a concordance
+	 * @return the concordance 
+	 */
 	
 	@Override
 	public ArrayList<String> createConcordanceArray(String input) {
@@ -26,21 +31,38 @@ public class ConcordanceDataManager implements ConcordanceDataManagerInterface {
 		
 		for(String i : text) {
 			
+			// Split each line into
 			String[] line = i.split("[^a-zA-Z0-9']+");
-			//String[] line = i.split("\\W+");
+			
 			for(String word : line) {
+				
 				word.replaceAll("[^a-zA-Z]", "");
+				
 				if(!word.equals("the") && !word.equals("and") && word.length() > 2) {
 					struct.add(word, lineNum);
 				}
+				
 			}
+			
 			lineNum++;
+			
 		}
 		
 		return struct.showAll();
 		
 	}
 
+	
+	
+	
+	
+	/**
+	 * Create a concordance of the file input and write it into the output file.  
+	 * @param input text file to be made into a concordance
+	 * @return true if the creation was successful, false if not 
+	 * @throws FileNotFoundException 
+	 */
+	
 	@Override
 	public boolean createConcordanceFile(File input, File output) throws FileNotFoundException {
 		
@@ -67,7 +89,7 @@ public class ConcordanceDataManager implements ConcordanceDataManagerInterface {
 			printOut.close();
 			return true;
 			
-		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
 			throw new FileNotFoundException();
 		} 
 		

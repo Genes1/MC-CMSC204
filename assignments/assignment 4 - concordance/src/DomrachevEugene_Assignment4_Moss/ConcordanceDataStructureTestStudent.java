@@ -9,7 +9,7 @@ import org.junit.Test;
 /**
  * This is the test file for the ConcordanceDataManager
  * which is implemented from the ConcordanceDataManagerInterface
- * @author Professor Kartchner
+ * @author Professor Kartchner, repurposed by Eugene Domrachev
  */
 public class ConcordanceDataStructureTestStudent {
 	
@@ -46,7 +46,6 @@ public class ConcordanceDataStructureTestStudent {
 		testStructure.add("zebra", 3);
 		testStructure.add("horse", 5);
 
-		//assertEquals("[A, B, BB, C]", sortedLinkedString.getWords().toString());
 		
 		System.out.println(testStructure.showAll());
 		assertEquals("[dog: 1, 5\n, horse: 5\n, zebra: 3\n]", testStructure.showAll().toString());

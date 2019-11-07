@@ -1,13 +1,14 @@
 import java.util.Collections;
 import java.util.LinkedList;
 
-/***
+/**
  * @author Eugene Domrachev 
+ * 
  * This class is the data element class for the ConcordanceDataStructure.
  * It consists of a word (String) and a list of page numbers (LinkedList)
  */
 
-public class ConcordanceDataElement {
+public class ConcordanceDataElement implements Comparable{
 	
 	String word;
 	LinkedList<Integer> occurences;
@@ -15,7 +16,9 @@ public class ConcordanceDataElement {
 	
 	
 	/**
-	 * TODO
+	 * Create a new DataElement object with the given word and its first occurrence.
+	 * @param word word to be kept track of
+	 * @param line first occurrence of the word
 	 */
 	
 	public ConcordanceDataElement(String word, int line) {
@@ -28,7 +31,8 @@ public class ConcordanceDataElement {
 	
 	
 	/**
-	 * Add a line number to the linked list if the number doesn't exist in the list
+	 * Add a line number to the linked list if the number doesn't exist in the list.
+	 * @param lineNum line to be added 
 	 */
 	
 	public void addPage(int lineNum) {
@@ -40,7 +44,8 @@ public class ConcordanceDataElement {
 	
 	
 	/**
-	 * Returns the linked list of integers that represent the line numbers 
+	 * Returns the linked list of integers that represent the line numbers.
+	 * @return all line numbers in which the word is contained
 	 */
 	
 	public LinkedList<Integer> getList(){
@@ -52,32 +57,21 @@ public class ConcordanceDataElement {
 	
 	
 	/**
-	 * Return the word portion of the Concordance Data Element
+	 * Return the word portion of the Concordance Data Element.
+	 * @return the word which has its occurrences counted
 	 */
 	
 	public String getWord() {
 		return word;
 	}
+
 	
 	
 	
 	
 	
 	/**
-	 * TODO what is this used for?
-	 */
-	
-	public int compareTo(ConcordanceDataElement arg0) {
-		return 0;
-		
-	}
-	
-	
-	
-	
-	
-	/**
-	 * Returns the hashCode.
+	 * Returns the hashCode of the word portion. NOTE: may be negative.
 	 */
 	
 	public int hashCode() {
@@ -109,7 +103,23 @@ public class ConcordanceDataElement {
 		
 		
 		return word + ": " + s + "\n";
+		
+		
 	}
+
+
+
+
+	@Override
+	public int compareTo(Object o) {
+		ConcordanceDataElement obj = (ConcordanceDataElement) o;
+		return word.compareTo(obj.getWord());
+	}
+
+
+
+
+
 	
 	
 	
