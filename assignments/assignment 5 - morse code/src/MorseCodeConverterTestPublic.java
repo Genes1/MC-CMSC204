@@ -24,8 +24,6 @@ public class MorseCodeConverterTestPublic {
 
 	@Test
 	public void testConvertToEnglishString() {	
-		//MorseCodeTree tree = new MorseCodeTree();
-		//System.out.println(tree.toArrayList());
 		String converter1 = MorseCodeConverter.convertToEnglish(".... . .-.. .-.. --- / .-- --- .-. .-.. -.. ");
 		assertEquals("hello world",converter1);
 	}
