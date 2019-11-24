@@ -35,18 +35,40 @@ public class TreeNode<T> {
 	
 	
 	
-	public TreeNode getLeft() {
-		return leftChild; 
-	}
+	
+	
+	public void setLeft(TreeNode<T> left) { this.leftChild = left; }
 	
 	
 	
-	public TreeNode getRight() {
-		return rightChild; 
-	}
+	public void setRight(TreeNode<T> right) { this.rightChild = right; }
+	
+	
+
+	
+	
+	public TreeNode getLeft() { return leftChild; }
+	
+	
+	
+	public TreeNode getRight() { return rightChild; }
+	
+	
+	
+	
+	
+	public boolean hasRight() { return rightChild != null; }
+	
+	
+	
+	public boolean hasLeft() { return leftChild != null; }
+	
+	
 	
 	
 	
 	public T getData(){ return data; }
+	
+	
 	
 }

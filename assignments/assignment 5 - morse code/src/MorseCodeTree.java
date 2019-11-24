@@ -8,6 +8,7 @@
  */
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 public class MorseCodeTree implements LinkedConverterTreeInterface<String> {
 	
@@ -19,21 +20,33 @@ public class MorseCodeTree implements LinkedConverterTreeInterface<String> {
 	}
 	
 	
-	/*
-	 * This is a recursive method that adds element to the correct position in the tree based on the code. A '.' (dot) means traverse to the left. A "-" (dash) means traverse to the right. The code ".-" would be stored as the right child of the left child of the root Algorithm for the recursive method:
-		1. if there is only one character
-		a. if the character is '.' (dot) store to the left of the current root
-		b. if the character is "-" (dash) store to the right of the current root
-		c. return
-		2. if there is more than one character
-		a. if the first character is "." (dot) new root becomes the left child
-		b. if the first character is "-" (dash) new root becomes the right child
-		c. new code becomes all the remaining charcters in the code (beyond the first character)
-		d. call addNode(new root, new code, letter)
-	 */
+	
+	
+
 	public void addNode(TreeNode<String> root, String code, String letter) {
 		
+		TreeNode<String> temp = root; 
+		
+		if(code.length() == 1) {
+			temp = new TreeNode(letter);
+			if(code.equals(".")) {
+				root.setLeft(temp);
+			} else {
+				root.setRight(temp);
+			}
+			return;
+		}
+		
+		//TODO NO SUCH EXCEPTIONS
+		if(code.charAt(0) == '.') {
+			addNode(temp.getLeft(), code.substring(1), letter);
+		} else {
+			addNode(temp.getRight(), code.substring(1), letter);
+		}
+		
 	}
+	
+	
 	
 	
 	
@@ -81,37 +94,41 @@ public class MorseCodeTree implements LinkedConverterTreeInterface<String> {
 	}
 	
 	
+	
+	
+	
 	//TODO add nosucheleexception
 	
-	public String fetch(String code) {
-		
-		TreeNode<String> temp = getRoot(); 
-		boolean last = false;
-		
-		for(int i = 0; i < code.length(); i++) {
-			
-			//Needed?
-			if(i == code.length() - 1) {
-				last = true;
-			}
-			
-			char symbol = code.charAt(i);
-			
-			if(symbol == '.') {
-				
-
-			} else() { 
-				
-			}
+	public String fetch(String code) {	
+		if(code.equals("/")) {
+			return " ";
 		}
-		
+		return fetchNode(getRoot(), code);		
 	}
+	
+	
 	
 	
 	
 	public String fetchNode(TreeNode<String> root, String code) {
-		return code;
+		
+		TreeNode<String> temp = root; 
+		
+		if(code.length() == 0) {
+			return root.getData();
+		}
+		
+		//TODO NO SUCH EXCEPTIONS
+		if(code.charAt(0) == '.') {
+			return fetchNode(temp.getLeft(), code.substring(1));
+		} else {
+			return fetchNode(temp.getRight(), code.substring(1));
+		}
+		
+		//return "";
 	}
+	
+	
 	
 	
 	
@@ -121,62 +138,15 @@ public class MorseCodeTree implements LinkedConverterTreeInterface<String> {
 	
 	
 	
+	
+	
 	public MorseCodeTree insert(String code, String letter) {
-		
-		TreeNode<String> temp = getRoot(); 
-		boolean last = false;
-		//TODO ZERO LENGTH EXCEPTION
-		// The assignment doesn't require checking for uninitialized nodes, but let's do it anyway.
-		for(int i = 0; i < code.length(); i++) {
-			
-			//Needed?
-			if(i == code.length() - 1) {
-				last = true;
-			}
-			
-			char symbol = code.charAt(i);
-			
-			if(symbol == '.') {
-				
-				//left
-				if(temp.getLeft() == null) {
-					if(last) {
-						temp.leftChild = new TreeNode<String>(letter);
-					} else {
-						temp.leftChild = new TreeNode<String>("");
-					}
-					
-				}
-				
-				temp = temp.getLeft();
-				
-			} else if (symbol == '-') {
-				
-				//right
-
-				if(temp.getRight() == null) {
-					if(last) {
-						temp.rightChild = new TreeNode<String>(letter);
-					} else {
-						temp.rightChild = new TreeNode<String>("");
-					}
-					
-				}
-				
-				temp = temp.getRight();
-
-			} else {
-				//TODO throw exception
-				System.out.println("Invalid code");
-				break;
-			}
-			
-		}
-		
-		
+		addNode(getRoot(), code, letter);
 		return this;
 		
 	}
+	
+	
 	
 	
 	
@@ -186,18 +156,35 @@ public class MorseCodeTree implements LinkedConverterTreeInterface<String> {
 	
 	
 	
+	
+	
 	public void LNRoutputTraversal(TreeNode<String> root, ArrayList<String> list) {
+		
+		//LNRoutputTraversal(root.getLeft(), list);
+		if(root == null) {
+			return;
+		}
+		
+		LNRoutputTraversal(root.getLeft(), list);
+		list.add(root.getData());
+		LNRoutputTraversal(root.getRight(), list);
 		
 	}
 	
 	
 	
+	
+	
 	public ArrayList<String> toArrayList(){
-		return null;
+		ArrayList<String> list = new ArrayList<String>();
+		LNRoutputTraversal(getRoot(), list);
+		return list;
 	}
 	
 	
-	// Unsupported exception
+	
+	
+	// TODO Unsupported exception
 	
 	public MorseCodeTree update() { return null; }
 	
