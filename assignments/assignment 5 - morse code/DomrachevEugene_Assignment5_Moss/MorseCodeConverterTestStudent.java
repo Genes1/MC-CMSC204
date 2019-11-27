@@ -1,3 +1,10 @@
+/**
+ * 
+ * @author Eugene Domrachev
+ *
+ * Private tests for morse code conversion system
+ *
+ */
 
 import static org.junit.Assert.*;
 
@@ -9,7 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class MorseCodeConverterTest_STUDENT {
+public class MorseCodeConverterTestStudent {
 	
 	
 	
@@ -24,12 +31,15 @@ public class MorseCodeConverterTest_STUDENT {
 	
 	
 	
+	/**
+	 * Testing for correct conversion of all characters using key phrase to hit all letters
+	 */
 	
 	@Test
 	public void testConvertMorseStringToEnglishString() {	
 		
 		String converter1 = MorseCodeConverter.convertToEnglish("- .... . / --.- ..- .. -.-. -.- / -... .-. --- .-- -. / ..-. --- -..- / .--- ..- -- .--. ... / --- ...- . .-. / - .... . / .-.. .- --.. -.-- / -.. --- --.");
-		assertEquals("the quick brown fox jumps over the lazy dog",converter1);
+		assertEquals("the quick brown fox jumps over the lazy dog", converter1);
 
 	}
 
@@ -37,6 +47,10 @@ public class MorseCodeConverterTest_STUDENT {
 	
 	
 	
+	/**
+	 * Testing file reading capabilities
+	 */
+
 	@Test
 	public void testConvertMorseFileToEnglishString() {	
 		
@@ -44,10 +58,26 @@ public class MorseCodeConverterTest_STUDENT {
 		try {
 			assertEquals("how do i love thee let me count the ways", MorseCodeConverter.convertToEnglish(file));
 		} catch (FileNotFoundException e) {
+			System.out.println("An unwanted exception was caught.");
 			assertEquals(true, false);
 		}
 	}
 	
+	
+	
+	
+	
+	/**
+	 * Testing for correct implementation of tree and traversal
+	 */
+	
+	@Test
+	public void testPrintTree() {	
+		
+		MorseCodeConverter converter = new MorseCodeConverter();
+		assertEquals("h s v i f u e l r a p w j  b d x n c k y t z g q m o", converter.printTree());
+		
+	}
 	
 	
 }

@@ -1,0 +1,16 @@
+Eugene Domrachev
+Prof. Monshi
+
+Learning Doc, Assignment 5
+
+	This time around, there wasn't a whole lot to learn. I was familiar with
+	the concept of morse code, binary trees, etc. before the project was
+	assigned, so I didn't have any trouble visualizing what needed to happen
+	or what the requirements were.
+	
+	The inorder traversal was the most difficult part, but thinking less about 
+	the individual casess and more about the purpose of its inclusion helped
+	develop a working method.
+	
+	This assignment was mostly smooth sailing. Can't wait to get started on 
+	assignment 6! 
