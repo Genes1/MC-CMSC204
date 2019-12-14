@@ -1,0 +1,26 @@
+Eugene Domrachev
+Prof. Monshi
+
+Learning Doc, Assignment 6
+
+	Much of this project was playing around with the impementation
+	of the necessary methods. I opted to use the adjacency list 
+	approach which I implemented with a hashmap for both roads and towns,
+	but I feel like there is a much better way to do this. They both shared
+	keysets (being the towns in the graph), but did not hold the same 
+	information, so I could not think of a more intuitive way. I could
+	have made the value for the hashmap an array of both the roads and 
+	towns connected to the key, but this is a little convoluted.
+	
+	I wonder if the array approach was harder to implement dijstrka's 
+	algorithm with. I felt that the most difficult part was just the control
+	logic, not really the system I had set up with my variables. 
+	
+	While finishing the assignment, I realized I had not pushed a single time 
+	to my remote repo! While the risk of losing my computer/data is fairly low,
+	I still should still keep up the practice. It lets me access the code I have already
+	written from my phone if I wish to revisit it, and also (most importantly)
+	acts as my backup copy in case trageddy strikes. 
+	
+	That's all for this course, sadly. I did enjoy these projects, they were very 
+	good practice for the development process.
